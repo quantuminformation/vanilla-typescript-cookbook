@@ -1,0 +1,15 @@
+{
+  "extends": [
+    "airbnb/base"
+  ],
+  "rules": {
+    "semi": [
+      2,
+      "never"
+    ],
+    "quotes": [
+      2,
+      "double"
+    ]
+  }
+}
