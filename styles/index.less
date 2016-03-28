@@ -1,0 +1,49 @@
+@import "constants";
+@import "components/login";
+@import "components/bookingCalender";
+@import "forms";
+
+body {
+  //  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+#container {
+  flex: 1;
+  background-color: #0000f6;
+}
+
+nav {
+  display: flex;
+  > a {
+    // flex: 1;
+  }
+  > ul {
+    flex: 1;
+    display: flex;
+
+    > li {
+      flex: 1;
+      list-style: none;
+      > a {
+        color: #105e74;
+        transition: all 1s ease;
+        padding: 42px 30px;
+        font-size: 20px;
+        &.active {
+
+        }
+
+      }
+    }
+  }
+  h1 {
+    flex-grow: 1;
+  }
+}
+
+#main {
+  display: flex;
+}
+

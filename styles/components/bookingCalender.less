@@ -1,0 +1,21 @@
+@import "../constants";
+
+table {
+  width: 100%;
+  td {
+    box-sizing: border-box;
+    flex: 1;
+    border-top: 1px solid @calendarGuidelineColour;
+    border-right: 1px solid @calendarGuidelineColour;
+    border-collapse: collapse;
+    transform: translateZ(100px);
+  }
+  td:nth-child(2n + 1) {
+    border-top: 1px dashed #c5dcdf;
+  }
+  td:hover {
+    transition: all, 200ms, ease;
+    background-color: #6dfffa;
+    transform: translateZ(200px);
+  }
+}

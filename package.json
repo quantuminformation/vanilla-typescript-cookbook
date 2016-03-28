@@ -1,0 +1,46 @@
+{
+  "name": "vanillajs-cookbook",
+  "version": "0.1.0",
+  "description": "Examples of how to use vanillajs to do common tasks that we commonly use frameworks for.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuantumInformation/vanillajs-cookbook.git"
+  },
+  "keywords": [
+    "vanillajs",
+    "router",
+    "native",
+    "calendar"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QuantumInformation/vanillajs-cookbook/issues"
+  },
+  "homepage": "https://github.com/QuantumInformation/vanillajs-cookbook#readme",
+  "devDependencies": {
+    "eslint": "^2.4.0",
+    "eslint-config-airbnb": "^6.2.0"
+  },
+  "dependencies": {
+    "moment": "^2.12.0",
+    "normalize.css": "^4.0.0"
+  },
+  "system": {
+    "transpiler": "babel",
+    "main": "router"
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb/base"
+    ],
+    "env": {
+      "semi": [2, "never"],
+      "arrow-body-style": [2, "always"]
+    }
+  }
+}
