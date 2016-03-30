@@ -24,14 +24,6 @@ export default class BookingCalander extends BaseComponent {
 
     super(template)
 
-
-    this.me = {
-      name: "Nikos",
-      age: 9,
-      defaultSkier: true,
-    }
-
-
     // this.updateWeek(moment().startOf('week'))
   }
 
@@ -54,7 +46,6 @@ export default class BookingCalander extends BaseComponent {
       let newRow = "<tr>"
       for (trackingIndex = 0; trackingIndex < 8; trackingIndex++) {
         if (trackingIndex === 0) { // render the time column
-          newRow += `<td class="time">${currentTime.format("HH:mm")}</td>`
         } else {
           const nextDay = weekStart.clone().add(trackingIndex - 1, "days")
           newRow += `<td class="timeSlot" data-booking-date="${nextDay.toISOString()}"></td>`
@@ -95,19 +86,36 @@ export default class BookingCalander extends BaseComponent {
       weekStart.clone().add(7, "days"))
   }
 
+  /**
+   * Add each booking relevant to this week to the grid
+   *
+   * Each booking may or may not taking up more than 1 time slot
+   * @param bookings the bookings
+   * @param start start of this week
+   * @param end the end of this week
+   * @private
+   */
   _applyBookings(bookings, start, end) {
     // filter the bookings for just this booking calendar week (next mon - end of next sun)
-    bookings = bookings.filter(booking => {
+    bookings.filter(booking => {
       return booking.date.isBetween(start, end)
     }).forEach(booking => {
-      console.log(this._element.className)
-      const currentElement = this._element.querySelector(
-        `[data-booking-date="${booking.date.toISOString()}"]`
-      )
-      currentElement.dataset["bookingId"] = booking.id
-    })
+      // get grid slots that relevent to this booking
+      // assume everything divides nicely
+      const slotsNeeded = booking.durationMinutes /
+        globalBookingSettings.defaultBookingTimeResolutionMins
+      const query = Array(slotsNeeded).fill(0).map((e, i) => i).map(i => {
+        const iso = booking.date.add(globalBookingSettings.defaultBookingTimeResolutionMins, 'm')
+          .toISOString()
+        return `[data-booking-date="${iso}"]`
+      }).join(",")
+      const currentElements = this._element.querySelectorAll(query)
 
-    // update the dom with each booking
+      // update the elements
+      Array.from(currentElements).forEach(element => {
+        element.dataset["bookingId"] = booking.id
+      })
+    })
   }
 
 }

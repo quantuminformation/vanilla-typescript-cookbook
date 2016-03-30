@@ -9,4 +9,7 @@ export default {
   startMinutes: 0,
   endHours: 22,
   endMinutes: 0,
+
+  // the resolution of time slots (bookings are multiples of this)
+  defaultBookingTimeResolutionMins: 30,
 }
