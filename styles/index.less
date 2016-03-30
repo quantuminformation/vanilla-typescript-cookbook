@@ -6,6 +6,7 @@
 body {
   //  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  display: flex;
 
 }
 
@@ -15,35 +16,14 @@ body {
 }
 
 nav {
-  display: flex;
-  > a {
-    // flex: 1;
-  }
-  > ul {
-    flex: 1;
-    display: flex;
+  width: 140px;
 
-    > li {
-      flex: 1;
-      list-style: none;
-      > a {
-        color: #105e74;
-        transition: all 1s ease;
-        padding: 42px 30px;
-        font-size: 20px;
-        &.active {
-
-        }
-
-      }
-    }
-  }
-  h1 {
-    flex-grow: 1;
+  li {
+    display: block;
   }
 }
 
 #main {
-  display: flex;
+  flex: 1;
 }
 

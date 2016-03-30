@@ -2,20 +2,39 @@
 
 table {
   width: 100%;
+  border-collapse: collapse;
+
   td {
-    box-sizing: border-box;
-    flex: 1;
     border-top: 1px solid @calendarGuidelineColour;
     border-right: 1px solid @calendarGuidelineColour;
     border-collapse: collapse;
-    transform: translateZ(100px);
+    height: @timeSegmentHeight;
   }
-  td:nth-child(2n + 1) {
-    border-top: 1px dashed #c5dcdf;
+
+  tr td:first-child {
+    border: 1px solid @calendarGuidelineColour;
   }
+
+  tr td (not:first-child) {
+    border: 1px solid @calendarGuidelineColour;
+  }
+
+
+  td[data-booking-id] {
+    background-color: #0000f6;
+  }
+
+  thead td:first-child {
+    border-top: none;
+    border-left: none;
+  }
+
+  tbody tr:nth-child(2n) td {
+    border-top: 1px dashed #c5dcdf !important;
+  }
+
   td:hover {
     transition: all, 200ms, ease;
     background-color: #6dfffa;
-    transform: translateZ(200px);
   }
 }
