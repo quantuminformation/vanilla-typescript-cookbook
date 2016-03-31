@@ -103,7 +103,7 @@ export default class BookingCalander extends BaseComponent {
     }).forEach(booking => {
       // get grid slots that relevent to this booking
       // assume everything divides nicely
-      const slotsNeeded = booking.durationMinutes /
+      const slotsNeeded = booking.data.durationMinutes /
         defaultSettings.bookingTimeResolution
       const query = Array(slotsNeeded).fill(0).map((e, i) => i).map(i => {
         const iso = booking.date.add(defaultSettings.bookingTimeResolution, 'm')
@@ -115,6 +115,7 @@ export default class BookingCalander extends BaseComponent {
       // update the elements
       Array.from(currentElements).forEach(element => {
         element.dataset["bookingId"] = booking.id
+        element.dataset["toString"] = booking.toString()
       })
     })
   }
