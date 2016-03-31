@@ -1,6 +1,6 @@
 import BaseComponent from "../baseComponent"
 import moment from "moment"
-import globalBookingSettings from "../../configuration/globalBookingSettings"
+import defaultSettings from "../../configuration/defaultSettings"
 
 /**
  * BookingCalander
@@ -36,16 +36,17 @@ export default class BookingCalander extends BaseComponent {
    * @param {moment} start of that week to render, dates are worked out from this
    */
   getWeekTable(weekStart) {
-    const totalSlots = (globalBookingSettings.endHours - globalBookingSettings.startHours) * 2 + 2
-    let trackingIndex = 0 // used to increment the day for each td renderered
-    const currentTime = weekStart.hours(globalBookingSettings.startHours)
+    const totalSlots = (defaultSettings.endHours - defaultSettings.startHours) * 2 + 2
+    let trackingIndex = 0 // used to increment the day for each td rendered
+    const currentTime = weekStart.hours(defaultSettings.startHours)
 
-
-    const timeSlots = Array(totalSlots).fill(0).map((e, i) => i).map(i => {
+    // the time row spans the same week (one tr, with same times and incrementing days)
+    const timeRow = Array(totalSlots).fill(0).map(i => {
 
       let newRow = "<tr>"
       for (trackingIndex = 0; trackingIndex < 8; trackingIndex++) {
         if (trackingIndex === 0) { // render the time column
+          newRow += `<td class="time">${currentTime.format("HH:mm")}</td>`
         } else {
           const nextDay = weekStart.clone().add(trackingIndex - 1, "days")
           newRow += `<td class="timeSlot" data-booking-date="${nextDay.toISOString()}"></td>`
@@ -57,7 +58,7 @@ export default class BookingCalander extends BaseComponent {
     }).join()
 
     return `<h1>${weekStart.format("MMMM YYYY")}</h1>
-             <table border="0" cellspacing="0" cellpadding="0">
+              <table border="0" cellspacing="0" cellpadding="0">
                <thead>
                  <tr>
                    <td></td>
@@ -70,7 +71,7 @@ export default class BookingCalander extends BaseComponent {
                    <td>${weekStart.clone().add(7, "day").format("DD dddd")}</td>
                  </tr>
                  </thead>
-                 ${timeSlots}
+                 ${timeRow}
              </table>`
   }
 
@@ -103,9 +104,9 @@ export default class BookingCalander extends BaseComponent {
       // get grid slots that relevent to this booking
       // assume everything divides nicely
       const slotsNeeded = booking.durationMinutes /
-        globalBookingSettings.defaultBookingTimeResolutionMins
+        defaultSettings.bookingTimeResolution
       const query = Array(slotsNeeded).fill(0).map((e, i) => i).map(i => {
-        const iso = booking.date.add(globalBookingSettings.defaultBookingTimeResolutionMins, 'm')
+        const iso = booking.date.add(defaultSettings.bookingTimeResolution, 'm')
           .toISOString()
         return `[data-booking-date="${iso}"]`
       }).join(",")
