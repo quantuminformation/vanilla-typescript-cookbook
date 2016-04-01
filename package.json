@@ -33,7 +33,10 @@
   },
   "system": {
     "transpiler": "babel",
-    "main": "router"
+    "main": "router",
+    "lessOptions": {
+      "strictMath": true
+    }
   },
   "eslintConfig": {
     "extends": [

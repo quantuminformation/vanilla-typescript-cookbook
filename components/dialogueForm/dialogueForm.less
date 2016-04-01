@@ -1,0 +1,25 @@
+@import "../../styles/constants";
+
+/*
+This will be added to the screen at the far right and as soon as it is displayed we transition it
+into view
+*/
+
+.dialogueForm {
+  padding: 30px;
+  width: 200px;
+  position: fixed;
+  left: calc(50% - (100px));
+  top: 200px;
+  transition: all 300ms ease;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 4px;
+  .offscreen {
+    //todo cater for bigger screens
+    right: -3000px;
+  }
+
+}
+
+//todo mobile styles

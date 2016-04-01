@@ -1,6 +1,7 @@
 import BaseComponent from "../baseComponent"
 import moment from "moment"
 import defaultSettings from "../../configuration/defaultSettings"
+import DialogueForm from "../dialogueForm/dialogueForm"
 
 /**
  * BookingCalander
@@ -24,8 +25,32 @@ export default class BookingCalander extends BaseComponent {
 
     super(template)
 
-    // this.updateWeek(moment().startOf('week'))
   }
+
+  /**
+   *  any click on the calendar or the body will close the calendar, we just inspect the target to
+   *  determine what action to take
+   */
+  addListeners() {
+    // when this is clicked just close the calendar as it has 0 effect on the delivery slots
+    //
+    // deterin
+    document.addEventListener("mouseup", this._destroyBoundWithThis)
+    this._element.querySelector("tbody").addEventListener("mouseup", event => {
+      const title = "New booking"
+      const description = `Complete this form to add a new booking.
+      The date is ${event.target.dataset.bookingDate}`
+      const fields = [{
+        name: "customInfo",
+        type: "text",
+      }]
+
+      const dialogueForm = new DialogueForm(title, description, fields)
+      dialogueForm.show()
+    })
+  }
+
+
 
   /**
    * renders a calendar for a given week
@@ -85,6 +110,10 @@ export default class BookingCalander extends BaseComponent {
       bookings,
       weekStart.clone().add(1, "days"),
       weekStart.clone().add(7, "days"))
+
+
+    this.addListeners()
+
   }
 
   /**
@@ -115,7 +144,7 @@ export default class BookingCalander extends BaseComponent {
       // update the elements
       Array.from(currentElements).forEach(element => {
         element.dataset["bookingId"] = booking.id
-        element.dataset["toString"] = booking.toString()
+        element.innerHTML = booking.data.user.name
       })
     })
   }

@@ -1,0 +1,43 @@
+@import "../../styles/constants";
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  td {
+    border-top: 1px solid @calendarGuidelineColour;
+    border-right: 1px solid @calendarGuidelineColour;
+    border-collapse: collapse;
+    height: @timeSegmentHeight;
+    text-align: center;
+    color: #6e6e6e;
+  }
+
+  tr td:first-child {
+    border: 1px solid @calendarGuidelineColour;
+    width: 50px;
+  }
+
+  tr td:not(first-child) {
+    width: 110px;
+  }
+
+  td[data-booking-id] {
+    background-color: #a2e7ff;
+
+  }
+
+  thead td:first-child {
+    border-top: none;
+    border-left: none;
+  }
+
+  tbody tr:nth-child(2n) td {
+    border-top: 1px dashed #c5dcdf !important;
+  }
+
+  td:hover {
+    transition: all, 200ms, ease;
+    background-color: #6dfffa;
+  }
+}
