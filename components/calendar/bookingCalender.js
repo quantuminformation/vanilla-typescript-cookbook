@@ -33,9 +33,6 @@ export default class BookingCalander extends BaseComponent {
    */
   addListeners() {
     // when this is clicked just close the calendar as it has 0 effect on the delivery slots
-    //
-    // deterin
-    document.addEventListener("mouseup", this._destroyBoundWithThis)
     this._element.querySelector("tbody").addEventListener("mouseup", event => {
       const title = "New booking"
       const description = `Complete this form to add a new booking.
@@ -43,6 +40,7 @@ export default class BookingCalander extends BaseComponent {
       const fields = [{
         name: "customInfo",
         type: "text",
+        placeholder: "Custom info",
       }]
 
       const dialogueForm = new DialogueForm(title, description, fields)

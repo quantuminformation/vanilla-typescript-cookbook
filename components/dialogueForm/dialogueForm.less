@@ -6,8 +6,9 @@ into view
 */
 
 .dialogueForm {
-  padding: 30px;
-  width: 200px;
+  z-index: 2;
+  padding: 10px;
+ // width: 200px;
   position: fixed;
   left: calc(50% - (100px));
   top: 200px;
@@ -15,11 +16,15 @@ into view
   background-color: white;
   border: 1px solid black;
   border-radius: 4px;
-  .offscreen {
+  &.offscreen {
     //todo cater for bigger screens
-    right: -3000px;
+    left: -300px !important;
   }
-
+  > a {
+    position: absolute;
+    right: 10px;
+    font-size: 10px;
+  }
 }
 
 //todo mobile styles

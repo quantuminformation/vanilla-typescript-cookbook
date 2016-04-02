@@ -1,6 +1,4 @@
 import BaseComponent from "../baseComponent"
-import moment from "moment"
-import defaultSettings from "../../configuration/defaultSettings"
 
 /**
  * dialogueForm.js
@@ -8,12 +6,12 @@ import defaultSettings from "../../configuration/defaultSettings"
  * new information and to subscribe to events when the data entry is complete
  *
  */
-    // todo add field dynamic validation
+// todo add field dynamic validation
 export default class DialogueForm extends BaseComponent {
 
   /**
    *
-     * @param {string} title the title of the dialogue
+   * @param {string} title the title of the dialogue
    * @param {string} description some helper text to tell the user what it is for
    * @param fields a description of the form fields. Some are optional based on the type of input.
    * This is an object of the following format:
@@ -36,15 +34,16 @@ export default class DialogueForm extends BaseComponent {
 
     const fullFieldHTML = fields.map(field => {
       const fieldHTML = `<div class="field">
-                           <input name="${field.name}" type="${field.type}">
+                           <input name="${field.name}" type="${field.type}" placeholder="${field.placeholder}">
                          </div>
                         `
       return fieldHTML
     })
 
     const template =
-      `<div class = 'dialogueForm'>
-        <h1>title</h1>
+      `<div class = 'dialogueForm offscreen'>
+        <a href="#" class="closeDialogue">Close ✕</a>
+        <h2>${title}</h2>
         <div class="fields">${fullFieldHTML}</div>
       </div>`
 
@@ -58,11 +57,21 @@ export default class DialogueForm extends BaseComponent {
    * Renders the map
    */
   show() {
+    const el = document.createElement("DIV")
+    el.className = "modal-background"
+    document.body.appendChild(el)
     document.body.appendChild(this._element)
+    this.addListeners()
+  }
+
+  addListeners() {
+    const closeElement = this._element.querySelector('a')
+    closeElement.addEventListener("click", this._destroyBoundWithThis)
     this._element.classList.remove("offscreen")
   }
 
   destroy() {
+    document.body.removeChild(document.querySelector('.modal-background'));
     document.removeEventListener("mouseup", this._destroyBoundWithThis)
 
     this._element.parentElement.removeChild(this._element)
