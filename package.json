@@ -33,7 +33,7 @@
   },
   "system": {
     "transpiler": "babel",
-    "main": "router",
+    "main": "app/router",
     "lessOptions": {
       "strictMath": true
     }
