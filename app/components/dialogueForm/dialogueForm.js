@@ -26,10 +26,11 @@ export default class DialogueForm extends BaseComponent {
         }
       ]
     }`
-
+   * @param {string} isEditMode if not in edit mode it is in "add" mode
+   * note: it is the event handler that will inspect this prop and decide what to do with the data
    *
    */
-  constructor(title, description, fields) {
+  constructor(title, subtitle, description, fields, isEditMode) {
     // we render the fields to work with a flexbox form layout
 
     const fullFieldHTML = fields.map(field => {
@@ -40,15 +41,20 @@ export default class DialogueForm extends BaseComponent {
       return fieldHTML
     })
 
+    //todo, generate form validation
     const template =
       `<div class = 'dialogueForm offscreen'>
         <a href="#" class="closeDialogue">Close ✕</a>
-        <h2>${title}</h2>
+        <h3>${title}</h3>
+        <span class="subtitle">${subtitle}</span>
+        <p>${description}</p>
         <div class="fields">${fullFieldHTML}</div>
+        <button style="margin-top: 10px" class="btn-block">${isEditMode ? "Save edits" : "Save and add"}</button>
       </div>`
 
     super(template)
 
+    this.fields = fields
     // we need to store this because we need this 'context'
     this._destroyBoundWithThis = this.destroy.bind(this)
   }
@@ -68,6 +74,18 @@ export default class DialogueForm extends BaseComponent {
     const closeElement = this._element.querySelector('a')
     closeElement.addEventListener("click", this._destroyBoundWithThis)
     this._element.classList.remove("offscreen")
+
+    //wrap up the form fields values into an event to be handled by listeners of the dialogue
+    this._element.querySelector("button").addEventListener("click", event => {
+
+      const data = {}
+      this.fields.forEach(field => {
+        data[field.name] = this._element.querySelector(`[name=${field.name}`).value
+      })
+      const newEvent = new CustomEvent("onSubmit",{"detail":data})
+
+      this.dispatchEvent(newEvent)
+    })
   }
 
   destroy() {

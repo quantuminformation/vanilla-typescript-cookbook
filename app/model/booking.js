@@ -10,8 +10,9 @@ export default class Booking {
    * @param data ad-hoc data that is not essential to the booking domain ( it may contain and id
    * and date but they will not be used)
    */
-  constructor(id, date, data) {
+  constructor(id, userId, date, data) {
     this.id = id
+    this.userId = userId
     this.date = date
     this.data = data
   }
