@@ -21,6 +21,7 @@ export default class DialogueForm extends BaseComponent {
    * @param {string} title the title of the dialogue
    * @param {string} description some helper text to tell the user what it is for
    * @param fields a description of the form fields. Some are optional based on the type of input.
+   * fields that are used to pass data through to the other end, uneditable ones will be hidden
    * This is an object of the following format:
    *
    `{
@@ -40,27 +41,34 @@ export default class DialogueForm extends BaseComponent {
   constructor(title, subtitle, description, fields, isEditMode) {
     // we render the fields to work with a flexbox form layout
 
-    const fullFieldHTML = fields.filter(field => {
-      return field.editable
-    }).map(field => {
-      const fieldHTML = `<div class="field">
-                           <input name="${field.name}" type="${field.type}" 
-                              placeholder="${field.placeholder}">
-                         </div>
-                        `
-      return fieldHTML
-    })
+    const fullFieldHTML = fields
 
-    //todo, generate form validation
+    /*     .filter(field => {
+     return field.editable
+     })*/
+
+      .map(field => {
+        if (field.editable) {
+          return `<div class="field">
+                   <input name="${field.name}" type="${field.type}"  value="${field.value}"
+                       placeholder="${field.placeholder}">
+                  </div> `
+        }
+        return `<div class="field">
+                  <input name="${field.name}" type = "hidden" value="${field.value}">
+                 </div>`
+      }).join("")
+
+    // todo, generate form validation
     const template =
-      `<div class = 'dialogueForm offscreen'>
+      `<article data-componenent="dialogueForm" data-is-initialising="true">
         <a href="#" class="closeDialogue">Close ✕</a>
         <h3>${title}</h3>
         <span class="subtitle">${subtitle}</span>
         <p>${description}</p>
         <div class="fields">${fullFieldHTML}</div>
         <button style="margin-top: 10px" class="btn-block">${isEditMode ? "Save edits" : "Save and add"}</button>
-      </div>`
+      </article>`
 
     super(template)
 
@@ -77,6 +85,9 @@ export default class DialogueForm extends BaseComponent {
     el.className = "modal-background"
     document.body.appendChild(el)
     document.body.appendChild(this._element)
+    setTimeout(() => {
+      this._element.dataset.isInitialising = false
+    }, 50)
     this.addListeners()
   }
 
@@ -86,17 +97,18 @@ export default class DialogueForm extends BaseComponent {
     this._element.classList.remove("offscreen")
 
     //wrap up the form fields values into an event to be handled by listeners of the dialogue
-    this._element.querySelector("button").addEventListener("click", event => {
+    this._element.querySelector("button").addEventListener("click", function () {
 
       const data = {}
-      this.fields.forEach(field => {
+      this.fields.forEach(function (field) {
         console.log(this._element.querySelector(`[name=${field.name}`))
         data[field.name] = this._element.querySelector(`[name=${field.name}`).value
-      })
+      }.bind(this))
       const newEvent = new CustomEvent("onSubmit", {"detail": data})
 
       this.dispatchEvent(newEvent)
-    })
+      this.destroy()
+    }.bind(this))
   }
 
   destroy() {

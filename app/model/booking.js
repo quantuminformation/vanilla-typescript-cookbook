@@ -5,16 +5,17 @@
 export default class Booking {
 
   /**
-   * @param {int} id
+   * @param {int} id the booking id
+   * @param {User} the user
    * @param {moment} date
-   * @param data ad-hoc data that is not essential to the booking domain ( it may contain and id
-   * and date but they will not be used)
+   * @param {string} additionalInfo extra info for the booking)
    */
-  constructor(id, userId, date, data) {
+  constructor(id, user, date, durationMinutes, additionalInfo) {
     this.id = id
-    this.userId = userId
+    this.user = user
     this.date = date
-    this.data = data
+    this.durationMinutes = durationMinutes
+    this.additionalInfo = additionalInfo
   }
 
   toString() {

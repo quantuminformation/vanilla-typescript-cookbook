@@ -3,6 +3,7 @@ import moment from "moment"
 import defaultSettings from "../../configuration/defaultSettings"
 import DialogueForm from "../dialogueForm/dialogueForm"
 import mockApi from "../../api/mocks/mockApi"
+import state from "../../state"
 
 
 /**
@@ -36,9 +37,7 @@ export default class BookingCalander extends BaseComponent {
   addListeners() {
     // when this is clicked just close the calendar as it has 0 effect on the delivery slots
     this._element.querySelector("tbody").addEventListener("mouseup", event => {
-
-      //toto check if() tbody td:not(:first-child)
-
+      // toto check if() tbody td:not(:first-child)
       const title = "New booking"
       const description = "Complete this form to add a new booking."
       const subtitle = `${moment(event.target.dataset.bookingDate).format("YYYY/MM/DD")}`
@@ -48,21 +47,23 @@ export default class BookingCalander extends BaseComponent {
           name: "additionalInfo",
           type: "text",
           placeholder: "Additional info",
+          value: "foo",
           editable: true,
         },
         {
           name: "date",
           type: "text",
+          value: event.target.dataset.bookingDate,
         },
-      ]
+      ] 
 
       const dialogueForm = new DialogueForm(title, subtitle, description, fields)
-      dialogueForm.addEventListener("onSubmit", this.onSaveOrEdit)
+      dialogueForm.addEventListener("onSubmit", this.onSaveOrEdit.bind(this))
       dialogueForm.show()
     })
   }
 
-  handleDialogueFormSubmit(){
+  handleDialogueFormSubmit() {
 
   }
 
@@ -119,13 +120,11 @@ export default class BookingCalander extends BaseComponent {
    * @param {moment} weekStart
    * @param any number of bookings
    */
-  switchToWeekView(weekStart, bookings) {
+  switchToWeekView(weekStart) {
     this._element.querySelector(".weekCalendarView").innerHTML = this.getWeekTable(weekStart)
     this._applyBookings(
-      bookings,
       weekStart.clone().add(1, "days"),
       weekStart.clone().add(7, "days"))
-
 
     this.addListeners()
 
@@ -134,21 +133,30 @@ export default class BookingCalander extends BaseComponent {
   /**
    * listens to onsub
    * @param event
-     */
+   */
   onSaveOrEdit(event) {
-    const newBooking = mockApi.saveBooking(
-      event.detail.userId,
-      event.detail.userId,
-      event.date.userId)
-    this.appendBookingToCalendar()
+    mockApi.saveBooking(
+      state.loggedInUser,
+      event.detail.date,
+      defaultSettings.bookingDurationMinutes,
+      event.detail.additionalInfo)
+      .then(newBooking => {
+        // todo make this more safe?
+        state.bookings.push(newBooking)
+        this.appendBookingToCalendar(newBooking)
+      })
+
   }
 
   /**
    *
    * @param {Booking} booking booking to be added
-     */
-  appendBookingToCalendar(booking){
-
+   */
+  appendBookingToCalendar(booking) {
+    const q = `[data-booking-date="${booking.date.toISOString()}"]`
+    const element = this._element.querySelector(q)
+    element.dataset["bookingId"] = booking.id
+    element.innerHTML = booking.user.username
   }
 
   /**
@@ -160,17 +168,17 @@ export default class BookingCalander extends BaseComponent {
    * @param end the end of this week
    * @private
    */
-  _applyBookings(bookings, start, end) {
+  _applyBookings(start, end) {
     // filter the bookings for just this booking calendar week (next mon - end of next sun)
-    bookings.filter(booking => {
+    state.bookings.filter(booking => {
       return booking.date.isBetween(start, end)
     }).forEach(booking => {
       // get grid slots that relevent to this booking
       // assume everything divides nicely
-      const slotsNeeded = booking.data.durationMinutes /
+      const slotsNeeded = booking.durationMinutes /
         defaultSettings.bookingTimeResolution
       const query = Array(slotsNeeded).fill(0).map((e, i) => i).map(i => {
-        const iso = booking.date.add(defaultSettings.bookingTimeResolution, 'm')
+        const iso = booking.date.add(defaultSettings.bookingTimeResolution, "m")
           .toISOString()
         return `[data-booking-date="${iso}"]`
       }).join(",")
@@ -179,10 +187,9 @@ export default class BookingCalander extends BaseComponent {
       // update the elements
       Array.from(currentElements).forEach(element => {
         element.dataset["bookingId"] = booking.id
-        element.innerHTML = booking.data.user.name
+        element.innerHTML = booking.user.username
       })
     })
   }
-
 }
 

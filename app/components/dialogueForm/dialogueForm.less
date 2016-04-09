@@ -5,7 +5,7 @@ This will be added to the screen at the far right and as soon as it is displayed
 into view
 */
 
-.dialogueForm {
+[data-componenent="dialogueForm"] {
   z-index: 2;
   padding: 10px;
  // width: 200px;
@@ -17,7 +17,7 @@ into view
   background-color: white;
   border: 1px solid black;
   border-radius: 4px;
-  &.offscreen {
+  &[data-is-initialising="true"] {
     //todo cater for bigger screens
     left: -300px !important;
   }
