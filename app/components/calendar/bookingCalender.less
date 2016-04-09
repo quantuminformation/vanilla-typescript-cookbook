@@ -33,11 +33,15 @@ table {
   }
 
   tbody tr:nth-child(2n) td {
-    border-top: 1px dashed #c5dcdf !important;
+    border-top: 1px dashed @calendarGuidelineColour !important;
   }
 
   td:hover {
     transition: all, 200ms, ease;
     background-color: #6dfffa;
+  }
+
+  tr:last-child td {
+    border-bottom: 1px solid @calendarGuidelineColour;
   }
 }

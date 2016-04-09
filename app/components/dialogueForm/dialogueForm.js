@@ -1,12 +1,19 @@
 import BaseComponent from "../baseComponent"
 
 /**
- * dialogueForm.js
- * The component allow the parent to delegate the task of a form to appear with space to fill in
- * new information and to subscribe to events when the data entry is complete
+ * dialogueForm
+ *
+ * Allows user to edit or create a new model in a popup dialogue.
+ *
+ * The cosuming componnent subscribes to events when the data entry is complete
+ * the popup is a modal with the fields passed from the consumer used to dynamically generate the form.
+ * Some fields are passed that are non editable
+ *
  *
  */
+//todo allow uneditible to fields to be rendered in disabled inputs
 // todo add field dynamic validation
+//todo config option to render or hide uneditable fields
 export default class DialogueForm extends BaseComponent {
 
   /**
@@ -33,9 +40,12 @@ export default class DialogueForm extends BaseComponent {
   constructor(title, subtitle, description, fields, isEditMode) {
     // we render the fields to work with a flexbox form layout
 
-    const fullFieldHTML = fields.map(field => {
+    const fullFieldHTML = fields.filter(field => {
+      return field.editable
+    }).map(field => {
       const fieldHTML = `<div class="field">
-                           <input name="${field.name}" type="${field.type}" placeholder="${field.placeholder}">
+                           <input name="${field.name}" type="${field.type}" 
+                              placeholder="${field.placeholder}">
                          </div>
                         `
       return fieldHTML
@@ -80,9 +90,10 @@ export default class DialogueForm extends BaseComponent {
 
       const data = {}
       this.fields.forEach(field => {
+        console.log(this._element.querySelector(`[name=${field.name}`))
         data[field.name] = this._element.querySelector(`[name=${field.name}`).value
       })
-      const newEvent = new CustomEvent("onSubmit",{"detail":data})
+      const newEvent = new CustomEvent("onSubmit", {"detail": data})
 
       this.dispatchEvent(newEvent)
     })

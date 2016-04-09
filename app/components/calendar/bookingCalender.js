@@ -36,15 +36,18 @@ export default class BookingCalander extends BaseComponent {
   addListeners() {
     // when this is clicked just close the calendar as it has 0 effect on the delivery slots
     this._element.querySelector("tbody").addEventListener("mouseup", event => {
+
+      //toto check if() tbody td:not(:first-child)
+
       const title = "New booking"
       const description = "Complete this form to add a new booking."
       const subtitle = `${moment(event.target.dataset.bookingDate).format("YYYY/MM/DD")}`
       // todo make field a class?
       const fields = [
         {
-          name: "customInfo",
+          name: "additionalInfo",
           type: "text",
-          placeholder: "Custom info",
+          placeholder: "Additional info",
           editable: true,
         },
         {
@@ -57,6 +60,10 @@ export default class BookingCalander extends BaseComponent {
       dialogueForm.addEventListener("onSubmit", this.onSaveOrEdit)
       dialogueForm.show()
     })
+  }
+
+  handleDialogueFormSubmit(){
+
   }
 
 
@@ -124,11 +131,24 @@ export default class BookingCalander extends BaseComponent {
 
   }
 
+  /**
+   * listens to onsub
+   * @param event
+     */
   onSaveOrEdit(event) {
     const newBooking = mockApi.saveBooking(
       event.detail.userId,
       event.detail.userId,
       event.date.userId)
+    this.appendBookingToCalendar()
+  }
+
+  /**
+   *
+   * @param {Booking} booking booking to be added
+     */
+  appendBookingToCalendar(booking){
+
   }
 
   /**
