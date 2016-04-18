@@ -12,7 +12,6 @@ export default class BookingCalander extends BaseComponent {
       </div>`
 
     super(template)
-    document.body.appendChild(this.getElement())
   }
 
   /**

@@ -7,7 +7,7 @@ export default {
   // todo make service for this + adjust for working week . have array of hours
   startHours: 10,
   startMinutes: 0,
-  endHours: 16,
+  endHours: 23,
   endMinutes: 0,
 
   // the resolution of time slots (bookings are multiples of this)

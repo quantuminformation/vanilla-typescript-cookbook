@@ -10,5 +10,5 @@ export default {
 
   // when we add to the booking we don't refresh the booking calendar, 
   // we let the calendar do it immediatly after
-  bookings: {},
+  bookings: [],
 }

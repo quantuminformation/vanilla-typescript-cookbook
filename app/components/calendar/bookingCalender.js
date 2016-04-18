@@ -55,7 +55,7 @@ export default class BookingCalander extends BaseComponent {
           type: "text",
           value: event.target.dataset.bookingDate,
         },
-      ] 
+      ]
 
       const dialogueForm = new DialogueForm(title, subtitle, description, fields)
       dialogueForm.addEventListener("onSubmit", this.onSaveOrEdit.bind(this))
@@ -67,6 +67,17 @@ export default class BookingCalander extends BaseComponent {
 
   }
 
+  /**
+   * Gives the html to render the booking
+   * @param {Booking} booking
+   * @returns {string}
+   */
+  renderBooking(booking) {
+    return `<article booking-id="${booking.id}" class="booking">
+              <div class="Name">${booking.user}</div>
+              <div class="info">${booking.additionalInfo}</div>
+            </article>`
+  }
 
   /**
    * renders a calendar for a given week
@@ -123,11 +134,10 @@ export default class BookingCalander extends BaseComponent {
   switchToWeekView(weekStart) {
     this._element.querySelector(".weekCalendarView").innerHTML = this.getWeekTable(weekStart)
     this._applyBookings(
-      weekStart.clone().add(1, "days"),
+      weekStart,
       weekStart.clone().add(7, "days"))
 
     this.addListeners()
-
   }
 
   /**
@@ -155,8 +165,7 @@ export default class BookingCalander extends BaseComponent {
   appendBookingToCalendar(booking) {
     const q = `[data-booking-date="${booking.date.toISOString()}"]`
     const element = this._element.querySelector(q)
-    element.dataset["bookingId"] = booking.id
-    element.innerHTML = booking.user.username
+    element.innerHTML = this.renderBooking(booking)
   }
 
   /**
@@ -165,13 +174,12 @@ export default class BookingCalander extends BaseComponent {
    * Each booking may or may not taking up more than 1 time slot
    * @param bookings the bookings
    * @param start start of this week
-   * @param end the end of this week
    * @private
    */
-  _applyBookings(start, end) {
+  _applyBookings(start) {
     // filter the bookings for just this booking calendar week (next mon - end of next sun)
     state.bookings.filter(booking => {
-      return booking.date.isBetween(start, end)
+      return booking.date.isBetween(start, start.clone().end)
     }).forEach(booking => {
       // get grid slots that relevent to this booking
       // assume everything divides nicely
@@ -186,8 +194,7 @@ export default class BookingCalander extends BaseComponent {
 
       // update the elements
       Array.from(currentElements).forEach(element => {
-        element.dataset["bookingId"] = booking.id
-        element.innerHTML = booking.user.username
+        element.innerHTML = this.renderBooking(booking)
       })
     })
   }

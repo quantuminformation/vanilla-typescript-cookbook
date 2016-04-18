@@ -24,12 +24,13 @@
   "homepage": "https://github.com/QuantumInformation/vanillajs-cookbook#readme",
   "devDependencies": {
     "eslint": "^2.4.0",
-    "eslint-config-airbnb": "^6.2.0",
+    "eslint-config-airbnb": "^7.0.0",
     "steal-tools": "github:stealjs/steal-tools#minor"
   },
   "dependencies": {
     "moment": "^2.12.0",
-    "normalize.css": "^4.0.0"
+    "normalize.css": "^4.0.0",
+    "steal": "^0.16.1"
   },
   "system": {
     "transpiler": "babel",
