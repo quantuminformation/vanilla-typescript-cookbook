@@ -10,7 +10,7 @@ import "./styles/index.less!"
 
 // reused stuff
 const mainContentElement = document.createElement("div")
-const bookingCalender = new BookingCalender()
+let bookingCalender
 
 
 /**
@@ -27,12 +27,31 @@ function assembleCommonParts() {
   mainContentElement.id = "main"
 }
 
+function renderHomePage() {
+  mainContentElement.innerHTML = `<h1>Home</h1>
+                                      <p>Welcome to examples of how to build an application using
+                                        only vanillaJs
+                                      </p>`
+}
+
 
 assembleCommonParts()
 
-const onhashchange = function () {
-  mainContentElement.innerHTML = ""   // clear content
 
+window.addEventListener("hashchange", updateBasedOnLocation);
+function navigateToInitialRoute() {
+  window.location = "#"
+}
+function renderCalendar() {
+  if (!bookingCalender) {
+    bookingCalender = new BookingCalender()
+  }
+  bookingCalender.switchToWeekView(moment().startOf("week"))
+  mainContentElement.appendChild(bookingCalender.getElement())
+}
+
+function updateBasedOnLocation() {
+  mainContentElement.innerHTML = ""   // clear content
 
   switch (window.location.hash) {
 
@@ -47,22 +66,19 @@ const onhashchange = function () {
       if (!state.bookings.length) {
         mockApi.getAllbookings().then(bookings => {
           state.bookings = bookings
+          renderCalendar()
         })
+      } else {
+        renderCalendar()
       }
-      bookingCalender.switchToWeekView(moment().startOf("week"))
-      mainContentElement.appendChild(bookingCalender.getElement())
       break
     }
     default:
     {
-      mainContentElement.innerHTML = "<h1>Home page</h1>"
+      renderHomePage()
     }
   }
-};
 
-window.addEventListener("hashchange", onhashchange);
-function navigateToInitialRoute() {
-  window.location = "#"
 }
-navigateToInitialRoute()
-
+// navigateToInitialRoute()
+updateBasedOnLocation()

@@ -27,7 +27,7 @@ export default {
       bookings.push(new Booking(
         1,
         "Nikos",
-        moment(),
+        moment().startOf("hour"),
         defaultSettings.bookingDurationMinutes,
         "additional info"
       ))

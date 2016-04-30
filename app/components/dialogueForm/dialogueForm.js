@@ -62,12 +62,14 @@ export default class DialogueForm extends BaseComponent {
     // todo, generate form validation
     const template =
       `<article data-componenent="dialogueForm" data-is-initialising="true">
-        <a href="#" class="closeDialogue">Close ✕</a>
+        <a class="closeDialogue">Close ✕</a>
         <h3>${title}</h3>
         <span class="subtitle">${subtitle}</span>
         <p>${description}</p>
         <div class="fields">${fullFieldHTML}</div>
-        <button style="margin-top: 10px" class="btn-block">${isEditMode ? "Save edits" : "Save and add"}</button>
+        <button style="margin-top: 10px" class="btn-block">
+          ${isEditMode ? "Save edits" : "Save and add"}
+        </button>
       </article>`
 
     super(template)
@@ -92,13 +94,12 @@ export default class DialogueForm extends BaseComponent {
   }
 
   addListeners() {
-    const closeElement = this._element.querySelector('a')
+    const closeElement = this._element.querySelector("a")
     closeElement.addEventListener("click", this._destroyBoundWithThis)
     this._element.classList.remove("offscreen")
 
-    //wrap up the form fields values into an event to be handled by listeners of the dialogue
-    this._element.querySelector("button").addEventListener("click", function () {
-
+    // wrap up the form fields values into an event to be handled by listeners of the dialogue
+    this._element.querySelector("button").addEventListener("click", function () { //eslint ignore-line
       const data = {}
       this.fields.forEach(function (field) {
         console.log(this._element.querySelector(`[name=${field.name}`))

@@ -1,24 +1,43 @@
 @import "../../styles/constants";
 
-
 header {
-  height: 60px;
-  background-color: #6e6e6e;
+  //height: 60px;
+  background-color: @headerBackground;
   width: 100%;
   color: #ececec;
   display: flex;
 
   .logo {
     padding: 5px;
+    > a {
+
+      color: @logoColour !important;
+      text-decoration: none;
+    }
     h3 {
       margin: 0;
     }
   }
 
   nav {
+    ul {
+      padding: 0;
+      margin: 0 0 0 20px;
+    }
     flex: 1;
     li {
-      display: block;
+      display: inline-block;
+      > a {
+        display: block;
+        transition: all 300ms ease;
+        color: @headerText;
+        text-decoration: none;
+        padding: 17px 5px;
+        &:hover {
+          background-color: @headerBackgroundNavHover;
+        }
+      }
+
     }
   }
 }

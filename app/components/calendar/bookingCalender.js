@@ -90,7 +90,7 @@ export default class BookingCalander extends BaseComponent {
   getWeekTable(weekStart) {
     const totalSlots = (defaultSettings.endHours - defaultSettings.startHours) * 2 + 2
     let trackingIndex = 0 // used to increment the day for each td rendered
-    const currentTime = weekStart.hours(defaultSettings.startHours)
+    const currentTime = weekStart.clone().hours(defaultSettings.startHours)
 
     // the time row spans the same week (one tr, with same times and incrementing days)
     const timeRow = Array(totalSlots).fill(0).map(i => {
@@ -100,7 +100,7 @@ export default class BookingCalander extends BaseComponent {
         if (trackingIndex === 0) { // render the time column
           newRow += `<td class="time">${currentTime.format("HH:mm")}</td>`
         } else {
-          const nextDay = weekStart.clone().add(trackingIndex - 1, "days")
+          const nextDay = currentTime.clone().add(trackingIndex - 1, "days")
           newRow += `<td class="timeSlot" data-booking-date="${nextDay.toISOString()}"></td>`
         }
       }
@@ -133,10 +133,7 @@ export default class BookingCalander extends BaseComponent {
    */
   switchToWeekView(weekStart) {
     this._element.querySelector(".weekCalendarView").innerHTML = this.getWeekTable(weekStart)
-    this._applyBookings(
-      weekStart,
-      weekStart.clone().add(7, "days"))
-
+    this._applyBookings(weekStart)
     this.addListeners()
   }
 
@@ -179,7 +176,7 @@ export default class BookingCalander extends BaseComponent {
   _applyBookings(start) {
     // filter the bookings for just this booking calendar week (next mon - end of next sun)
     state.bookings.filter(booking => {
-      return booking.date.isBetween(start, start.clone().end)
+      return booking.date.isBetween(start, start.clone().add(7, "days"))
     }).forEach(booking => {
       // get grid slots that relevent to this booking
       // assume everything divides nicely
