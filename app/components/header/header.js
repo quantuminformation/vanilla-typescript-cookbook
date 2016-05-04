@@ -8,19 +8,29 @@ export default class Header extends BaseComponent {
   constructor() {
     const template =
       `<header>
-          <article class="logo">
-            <a href="#"><h3>VanillaJs</h3>
-            <span>cookbook!</span></a>
-          </article>
-          <nav>
-            <ul>
+         <nav>
+            <article class="logo">
+              <a href="#"><h3>VanillaJs</h3>
+              <span>cookbook!</span></a>
+            </article>
+            <ul class="left">
               <li><a href="#bookings">Booking Calendar</a></li>
             </ul>
-           </nav>
+            <ul class="right">
+               <li>
+                  <a id="account-toggle" href="#"><img src="http://lorempixel.com/24/25/sports/1/"></a>
+                  <article id="account-info" aria-label="Account Information" style="display: none">
+                    <p>Signed in as Nikos</p>
+                    <a href="#logout">Logout</a>
+                  </article>
+                </li>
+           </ul>
+          </nav>
         </header>`
 
     super(template)
     document.body.appendChild(this.getElement())
+    this.addListeners()
   }
 
   /**
@@ -28,7 +38,12 @@ export default class Header extends BaseComponent {
    *  determine what action to take
    */
   addListeners() {
-
+    const accountToggleEl = this._element.querySelector("#account-toggle")
+    const accountInfoEl = this._element.querySelector("#account-info")
+    accountToggleEl.addEventListener("click", function toggleAccount(event) {
+      accountInfoEl.style.display = (window.getComputedStyle(accountInfoEl).display === "block"
+        ? "none" : "block")
+    })
   }
 
 
