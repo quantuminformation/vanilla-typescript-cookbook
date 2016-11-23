@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "user": {
+      "id": 1,
+      "name": "Jeff",
+      "age": 19
+    },
+    "date": "2016-03-22T15:30:00Z",
+    "durationMinutes":60
+
+  },
+  {
+    "id": 2,
+    "user": {
+      "id": 2,
+      "name": "Nikos",
+      "age": 34
+    },
+    "date": "2016-03-24T11:30:00Z",
+    "durationMinutes":60
+
+  }
+]

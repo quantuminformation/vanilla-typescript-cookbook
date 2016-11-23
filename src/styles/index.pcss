@@ -1,0 +1,35 @@
+/*the common stuff */
+@import "./constants.pcss";
+@import "../components/calendar/bookingCalender.pcss";
+@import "~normalize.css";
+
+body {
+  //  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  min-width:  var(--min-site-width);
+}
+
+#container {
+  flex: 1;
+  background-color: #1a1a1a;
+}
+
+#main {
+  margin: 0 auto;
+  max-width: var(--site-width);
+  padding: 0 var(--application-padding);
+}
+
+footer {
+  padding: 10px 0;
+  background-color: #1d2734;
+  color: white;
+  text-align: center;
+  font-size: 10px;
+
+  > div {
+    margin: 0 auto;
+    max-width: var(--site-width);
+    padding: 0 var(--application-padding);
+  }
+}
