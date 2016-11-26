@@ -1,15 +1,19 @@
 import moment from 'moment'
-import BookingCalender from './components/calendar/bookingCalender'
-import mockApi from './api/mocks/mockApi'
-import stateManager from './util/stateManager/stateManager'
-import Header from './components/header/header'
-import Login from './components/login/login'
+import BookingCalender from './calendar/bookingCalender'
+import mockApi from '../api/mocks/mockApi'
+import stateManager from '../util/stateManager/stateManager'
+import Header from './header/header'
+import Login from './login/login'
 import 'normalize.css'
-import './styles/index.pcss'
+import '../styles/index.pcss'
 
-function App() {
+/**
+ * @param selector
+ * @constructor
+ */
+function App(selector) {
 
-  this.hostElement = document.createElement('div')
+  this.hostElement = document.querySelector(selector)
   this.router = new Router()
 
   this.assembleCommonParts()
@@ -21,10 +25,6 @@ function App() {
 }
 App.prototype = {
 
-  /**
-   * dynamic stuff that is on every page, like login status and header //todo footer
-   * allows us to have less maintenence of prod and dev html files
-   */
   assembleCommonParts() {
     const header = new Header()
 

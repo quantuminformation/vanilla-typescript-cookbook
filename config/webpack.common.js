@@ -11,7 +11,7 @@ const PATHS = {
 module.exports = {
 
   entry: {
-    app: PATHS.src + '/app.js'
+    app: PATHS.src + '/index.js'
   },
   output: {
     path: PATHS.build,
@@ -28,11 +28,18 @@ module.exports = {
         include: PATHS.src
       },
       {
-        test: /\.css$/,
+        test: /\.pcss$/,
         loaders: [
           'style-loader',
           'css-loader?importLoaders=1',
           'postcss-loader'
+        ]
+      },
+      {
+        test: /\.css$/,
+        loaders: [
+          'style-loader',
+          'css-loader'
         ]
       }
     ]
