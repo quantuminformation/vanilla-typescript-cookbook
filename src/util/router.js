@@ -1,12 +1,11 @@
-export function Router({hostElement,routes}) {
+export function Router ({hostElement, routes}) {
   this.history = []
 }
 
 Router.prototype = {
 
-  urlHashChange(){
+  urlHashChange () {
     switch (window.location.hash) {
-
       case '#login': {
         const login = new Login()
         mainContentElement.appendChild(login.getElement())
@@ -21,15 +20,13 @@ Router.prototype = {
     }
   },
 
-  addListeners(){
-    window.addEventListener('hashchange', updateBasedOnLocation);
-    function chooseInitialRoute() {
+  addListeners () {
+    window.addEventListener('hashchange', updateBasedOnLocation)
+    function chooseInitialRoute () {
       if (!state.loggedInUser) {
         window.location = '#login'
       }
       updateBasedOnLocation()
     }
-
   }
 }
-

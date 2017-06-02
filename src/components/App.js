@@ -12,15 +12,14 @@ import '../styles/index.pcss'
  * @param {string} selector
  * @constructor
  */
-export function App(selector) {
-
+export function App (selector) {
   this.hostElement = document.querySelector(selector)
 
-  //create app components
+  // create app components
   const header = new Header()
   const bookingCalender = new BookingCalender()
 
-  //append neccessary element
+  // append neccessary element
   this.hostElement.appendChild(header.getElement())
   const routingContainer = document.createElement('ARTICLE')
   routingContainer.className = 'routing-container'
@@ -30,14 +29,13 @@ export function App(selector) {
   this.router = new Router(routerConfig)
 
   const stateManager = new StateManager()
-
 }
 App.prototype = {
 
   /**
    * The router expects an array of objects with the route and the content function
    */
-  createRoutes(){
+  createRoutes () {
     return [
       {
         route: '',
@@ -48,7 +46,6 @@ App.prototype = {
       }, {
         route: 'bookings',
         contentFunction: () => {
-
           if (!stateManager.getState().bookings.length) {
             mockApi.getAllbookings().then(bookings => {
               state.bookings = bookings
@@ -57,7 +54,6 @@ App.prototype = {
               }
               bookingCalender.switchToWeekView(moment().startOf('week'))
               mainContentElement.appendChild(bookingCalender.getElement())
-
             })
           } else {
             renderCalendar()
@@ -70,8 +66,3 @@ App.prototype = {
 
 // reused stuff
 let bookingCalender
-
-
-
-
-

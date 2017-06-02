@@ -1,8 +1,8 @@
-import Booking from "../../model/booking"
-import User from "../../model/user"
-import state from "../../util/stateManager/stateManager"
-import moment from "moment"
-import defaultSettings from "../../configuration/defaultSettings"
+import Booking from '../../model/booking'
+import User from '../../model/user'
+import state from '../../util/stateManager/stateManager'
+import moment from 'moment'
+import defaultSettings from '../../configuration/defaultSettings'
 
 export default {
 
@@ -10,7 +10,7 @@ export default {
    *
    * @returns {Promise}
    */
-  getAllbookings() {
+  getAllbookings () {
     return new Promise((resolve, reject) => {
     /*  // convert static format from api to more useful app format
       const parsedBookings = bookings.map(booking=> {
@@ -21,15 +21,15 @@ export default {
           booking.durationMinutes,
           "foo")
         return newBooking
-      })*/
+      }) */
 
       const bookings = []
       bookings.push(new Booking(
         1,
-        "Nikos",
-        moment().startOf("hour"),
+        'Nikos',
+        moment().startOf('hour'),
         defaultSettings.bookingDurationMinutes,
-        "additional info"
+        'additional info'
       ))
 
       resolve(bookings)
@@ -43,7 +43,7 @@ export default {
    * @param data
    * @returns {Promise}
    */
-  saveBooking(user, isoDate, durationMinutes, additionalInfo) {
+  saveBooking (user, isoDate, durationMinutes, additionalInfo) {
     return new Promise((resolve, reject) => {
       const newBooking = new Booking(
         Math.random() * 1000,      // fake id
@@ -61,7 +61,7 @@ export default {
    * @param password
    * @returns {Promise}
    */
-  attemptLogin(username, password) {
+  attemptLogin (username, password) {
     return new Promise((resolve, reject) => {
       const newBooking = new Booking(
         Math.random() * 1000,      // fake id
@@ -71,5 +71,5 @@ export default {
         additionalInfo)
       resolve(newBooking)
     })
-  },
+  }
 }

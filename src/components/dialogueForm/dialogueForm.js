@@ -1,4 +1,4 @@
-import BaseComponent from "../baseComponent"
+import BaseComponent from '../baseComponent'
 
 /**
  * dialogueForm
@@ -11,11 +11,10 @@ import BaseComponent from "../baseComponent"
  *
  *
  */
-//todo allow uneditible to fields to be rendered in disabled inputs
+// todo allow uneditible to fields to be rendered in disabled inputs
 // todo add field dynamic validation
-//todo config option to render or hide uneditable fields
+// todo config option to render or hide uneditable fields
 export default class DialogueForm extends BaseComponent {
-
   /**
    *
    * @param {string} title the title of the dialogue
@@ -38,14 +37,14 @@ export default class DialogueForm extends BaseComponent {
    * note: it is the event handler that will inspect this prop and decide what to do with the data
    *
    */
-  constructor(title, subtitle, description, fields, isEditMode) {
+  constructor (title, subtitle, description, fields, isEditMode) {
     // we render the fields to work with a flexbox form layout
 
     const fullFieldHTML = fields
 
     /*     .filter(field => {
      return field.editable
-     })*/
+     }) */
 
       .map(field => {
         if (field.editable) {
@@ -57,7 +56,7 @@ export default class DialogueForm extends BaseComponent {
         return `<div class="field">
                   <input name="${field.name}" type = "hidden" value="${field.value}">
                  </div>`
-      }).join("")
+      }).join('')
 
     // todo, generate form validation
     const template =
@@ -68,7 +67,7 @@ export default class DialogueForm extends BaseComponent {
         <p>${description}</p>
         <div class="fields">${fullFieldHTML}</div>
         <button style="margin-top: 10px" class="btn-block">
-          ${isEditMode ? "Save edits" : "Save and add"}
+          ${isEditMode ? 'Save edits' : 'Save and add'}
         </button>
       </article>`
 
@@ -82,9 +81,9 @@ export default class DialogueForm extends BaseComponent {
   /**
    * Renders the map
    */
-  show() {
-    const el = document.createElement("DIV")
-    el.className = "modal-background"
+  show () {
+    const el = document.createElement('DIV')
+    el.className = 'modal-background'
     document.body.appendChild(el)
     document.body.appendChild(this._hostElement)
     setTimeout(() => {
@@ -93,30 +92,29 @@ export default class DialogueForm extends BaseComponent {
     this.addListeners()
   }
 
-  addListeners() {
-    const closeElement = this._hostElement.querySelector("a")
-    closeElement.addEventListener("click", this._destroyBoundWithThis)
-    this._hostElement.classList.remove("offscreen")
+  addListeners () {
+    const closeElement = this._hostElement.querySelector('a')
+    closeElement.addEventListener('click', this._destroyBoundWithThis)
+    this._hostElement.classList.remove('offscreen')
 
     // wrap up the form fields values into an event to be handled by listeners of the dialogue
-    this._hostElement.querySelector("button").addEventListener("click", function () { //eslint ignore-line
+    this._hostElement.querySelector('button').addEventListener('click', function () { // eslint ignore-line
       const data = {}
       this.fields.forEach(function (field) {
         console.log(this._hostElement.querySelector(`[name=${field.name}`))
         data[field.name] = this._hostElement.querySelector(`[name=${field.name}`).value
       }.bind(this))
-      const newEvent = new CustomEvent("onSubmit", {"detail": data})
+      const newEvent = new CustomEvent('onSubmit', {'detail': data})
 
       this.dispatchEvent(newEvent)
       this.destroy()
     }.bind(this))
   }
 
-  destroy() {
-    document.body.removeChild(document.querySelector('.modal-background'));
-    document.removeEventListener("mouseup", this._destroyBoundWithThis)
+  destroy () {
+    document.body.removeChild(document.querySelector('.modal-background'))
+    document.removeEventListener('mouseup', this._destroyBoundWithThis)
 
     this._hostElement.parentElement.removeChild(this._hostElement)
   }
 }
-

@@ -3,22 +3,22 @@
  * I will see how  it scales
  */
 
-import User from "../../model/user"
+import User from '../../model/user'
 
 let previousStates = []
 let currentStateIndex = 0
 let subscriptions = []
 
-export default function StateManager(state = {}) {
+export default function StateManager (state = {}) {
   this._state = state
 }
 
 StateManager.prototype = {
-  getState(){
+  getState () {
     return currentState
   },
-  updateState(property, value){
-    //forget any redo steps once we update the state
+  updateState (property, value) {
+    // forget any redo steps once we update the state
 
     state[property] = value
     if (state !== newState) {
@@ -26,14 +26,14 @@ StateManager.prototype = {
     }
     previousStates.splice(currentStateIndex)
   },
-  undo(){
+  undo () {
     if (previousStates.length) {
       currentStateIndex--
       return previousStates[currentStateIndex]
     }
     return undefined
   },
-  subscribe(callback){
+  subscribe (callback) {
     subscriptions.push(callback)
   }
 }

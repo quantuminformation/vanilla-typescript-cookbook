@@ -27,14 +27,14 @@ export default class Header {
           </nav>
         </header>`
 
-    var el =document.createElement('DIV')
+    var el = document.createElement('DIV')
     el.innerHTML = template
-    this._hostElement = el.firstChild;
+    this._hostElement = el.firstChild
     // document.getElementById("header-container").appendChild(this._hostElement)
     this.addListeners()
   }
 
-  getElement(){
+  getElement () {
     return this._hostElement
   }
 
@@ -42,23 +42,22 @@ export default class Header {
    *  any click on the calendar or the body will close the calendar, we just inspect the target to
    *  determine what action to take
    */
-  addListeners() {
-    const accountToggleEl = this._hostElement.querySelector("#account-toggle")
-    const accountInfoEl = this._hostElement.querySelector("#account-info")
+  addListeners () {
+    const accountToggleEl = this._hostElement.querySelector('#account-toggle')
+    const accountInfoEl = this._hostElement.querySelector('#account-info')
 
-    //here we open and close the account dropdown for clicking on the logged in icon or the body
-    accountToggleEl.addEventListener("click", function toggleAccount(event) {
-      if ((window.getComputedStyle(accountInfoEl).display === "none")) {
-        accountInfoEl.style.display = "block"
-        document.addEventListener("click", function closeAccount(event) {
-          accountInfoEl.style.display = "none"
+    // here we open and close the account dropdown for clicking on the logged in icon or the body
+    accountToggleEl.addEventListener('click', function toggleAccount (event) {
+      if ((window.getComputedStyle(accountInfoEl).display === 'none')) {
+        accountInfoEl.style.display = 'block'
+        document.addEventListener('click', function closeAccount (event) {
+          accountInfoEl.style.display = 'none'
           document.removeEventListener('click', closeAccount)
         })
       } else {
-        accountInfoEl.style.display = "none"
+        accountInfoEl.style.display = 'none'
       }
       event.stopPropagation()
     })
   }
 }
-

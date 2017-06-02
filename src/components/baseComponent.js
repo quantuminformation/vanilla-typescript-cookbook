@@ -1,17 +1,16 @@
-import EventTarget from "../util/EventTarget"
+import EventTarget from '../util/EventTarget'
 
 /**
  * Other classes extend this
  */
 export default class BaseComponent extends EventTarget {
-
   /**
    * takes a template and returns an actual dom element
    * @param template
    */
-  constructor(template) {
+  constructor (template) {
     super()
-    const tempElement = document.createElement("DIV")
+    const tempElement = document.createElement('DIV')
     tempElement.innerHTML = template
     this._hostElement = tempElement.firstChild
   }
@@ -20,11 +19,11 @@ export default class BaseComponent extends EventTarget {
    * returns the actual dom of the whole component
    * @returns {Node}
    */
-  getElement() {
+  getElement () {
     return this._hostElement
   }
 
-  destroy(){
+  destroy () {
 
   }
 }

@@ -12,5 +12,5 @@ export default {
 
   // the resolution of time slots (bookings are multiples of this)
   bookingTimeResolution: 30,
-  bookingDurationMinutes: 30,
+  bookingDurationMinutes: 30
 }

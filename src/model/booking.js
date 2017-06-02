@@ -3,14 +3,13 @@
  */
 
 export default class Booking {
-
   /**
    * @param {int} id the booking id
    * @param {User} the user
    * @param {moment} date
    * @param {string} additionalInfo extra info for the booking)
    */
-  constructor(id, user, date, durationMinutes, additionalInfo) {
+  constructor (id, user, date, durationMinutes, additionalInfo) {
     this.id = id
     this.user = user
     this.date = date
@@ -18,7 +17,7 @@ export default class Booking {
     this.additionalInfo = additionalInfo
   }
 
-  toString() {
+  toString () {
     return `${this.date.toString()} ${this.data.user.name}`
   }
 }
