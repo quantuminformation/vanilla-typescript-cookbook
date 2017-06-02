@@ -9,7 +9,7 @@ let previousStates = []
 let currentStateIndex = 0
 let subscriptions = []
 
-function StateManager(state = {}) {
+export default function StateManager(state = {}) {
   this._state = state
 }
 
@@ -37,5 +37,3 @@ StateManager.prototype = {
     subscriptions.push(callback)
   }
 }
-
-export default StateManager

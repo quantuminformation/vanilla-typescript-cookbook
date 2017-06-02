@@ -1,59 +1,63 @@
 import moment from 'moment'
 import BookingCalender from './calendar/bookingCalender'
 import mockApi from '../api/mocks/mockApi'
-import stateManager from '../util/stateManager/stateManager'
+import StateManager from '../util/stateManager/stateManager'
 import Header from './header/header'
 import Login from './login/login'
+import {Router} from '../util/router'
 import 'normalize.css'
 import '../styles/index.pcss'
 
 /**
- * @param selector
+ * @param {string} selector
  * @constructor
  */
-function App(selector) {
+export function App(selector) {
 
   this.hostElement = document.querySelector(selector)
-  this.router = new Router()
 
-  this.assembleCommonParts()
+  //create app components
+  const header = new Header()
+  const bookingCalender = new BookingCalender()
 
-  chooseInitialRoute()
+  //append neccessary element
+  this.hostElement.appendChild(header.getElement())
+  const routingContainer = document.createElement('ARTICLE')
+  routingContainer.className = 'routing-container'
+  this.hostElement.appendChild(routingContainer)
 
-  this.stateManager = new StateManager()
+  const routerConfig = {routes: this.createRoutes(), hostElement: routingContainer}
+  this.router = new Router(routerConfig)
+
+  const stateManager = new StateManager()
 
 }
 App.prototype = {
-
-  assembleCommonParts() {
-    const header = new Header()
-
-    document.body.appendChild(header.getElement())
-    document.body.appendChild(mainContentElement)
-    mainContentElement.id = 'main'
-  },
-
 
   /**
    * The router expects an array of objects with the route and the content function
    */
   createRoutes(){
-    let routes = [
+    return [
       {
         route: '',
         contentFunction: () => this.hostElement.innerHTML = `<h1>Home</h1>
                                       <p>Welcome to examples of how to build an application using
                                         only vanillaJs
                                       </p>`
-      },
-      {
+      }, {
         route: 'bookings',
         contentFunction: () => {
 
           if (!stateManager.getState().bookings.length) {
             mockApi.getAllbookings().then(bookings => {
               state.bookings = bookings
-              renderCalendar()
+              if (!bookingCalender) {
+                bookingCalender = new BookingCalender()
+              }
+              bookingCalender.switchToWeekView(moment().startOf('week'))
+              mainContentElement.appendChild(bookingCalender.getElement())
+
             })
           } else {
             renderCalendar()
@@ -62,20 +66,11 @@ App.prototype = {
       }
     ]
   }
-
-
 }
 
 // reused stuff
 let bookingCalender
 
-function renderCalendar() {
-  if (!bookingCalender) {
-    bookingCalender = new BookingCalender()
-  }
-  bookingCalender.switchToWeekView(moment().startOf('week'))
-  mainContentElement.appendChild(bookingCalender.getElement())
-}
 
 
 

@@ -3,8 +3,8 @@
  * Header shows the header and also takes car of the nav (and what nav items are
  * shown based on the logged in state)
  */
-export default class Header  {
-  constructor() {
+export default class Header {
+  constructor () {
     const template =
       `<header>
          <nav>

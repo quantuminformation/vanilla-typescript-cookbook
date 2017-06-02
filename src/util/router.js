@@ -1,4 +1,4 @@
-function Router() {
+export function Router({hostElement,routes}) {
   this.history = []
 }
 

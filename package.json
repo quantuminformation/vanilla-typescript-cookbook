@@ -1,11 +1,12 @@
 {
   "name": "vanillajs-cookbook",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Examples of how to use vanillajs to do common tasks that we commonly use frameworks for.",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "start": "webpack --watch --watch-poll"
+    "start": "webpack --watch --watch-poll",
+    "lint": "standard --verbose | snazzy"
   },
   "repository": {
     "type": "git",
@@ -24,47 +25,27 @@
   },
   "homepage": "https://github.com/QuantumInformation/vanillajs-cookbook#readme",
   "devDependencies": {
-    "@types/node": "^6.0.45",
+    "@types/node": "^7.0.23",
     "babel-core": "^6.18.2",
-    "babel-loader": "^6.2.7",
+    "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.18.0",
-    "css-loader": "^0.26.0",
-    "eslint": "^3.10.1",
-    "eslint-config-airbnb": "^13.0.0",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.1",
-    "eslint-plugin-react": "^6.7.1",
+    "css-loader": "^0.28.4",
     "html-webpack-plugin": "https://github.com/ampedandwired/html-webpack-plugin",
     "karma": "^1.3.0",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chrome-launcher": "^2.0.0",
     "karma-mocha": "^1.3.0",
-    "less": "^2.7.1",
-    "less-loader": "^2.2.3",
-    "postcss-css-variables": "^0.6.0",
-    "postcss-loader": "^1.1.1",
-    "postcss-smart-import": "^0.6.0",
-    "style-loader": "^0.13.1",
+    "postcss-css-variables": "^0.7.0",
+    "postcss-loader": "^2.0.5",
+    "postcss-smart-import": "^0.7.4",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.2",
+    "style-loader": "^0.18.1",
     "typescript": "^2.0.3",
     "webpack": "^2.1.0-beta.27"
   },
   "dependencies": {
     "moment": "^2.12.0",
-    "normalize.css": "^5.0.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "airbnb/base"
-    ],
-    "env": {
-      "semi": [
-        2,
-        "never"
-      ],
-      "arrow-body-style": [
-        2,
-        "always"
-      ]
-    }
+    "normalize.css": "^7.0.0"
   }
 }
